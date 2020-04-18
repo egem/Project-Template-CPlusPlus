@@ -1,7 +1,13 @@
 if(ENABLE_UNIT_TESTS)
 include(ExternalProject)
 
+set(GOOGLETEST_PROJECT_NAME GoogleTest)
+set(GOOGLETEST_VERSION_NAME googletest-release-1.10.0)
 set(GOOGLE_TEST_COMPRESSED_FILE_NAME   ${CMAKE_CURRENT_SOURCE_DIR}/${GOOGLETEST_VERSION_NAME}.tar.gz)
+set(PROJECT_OUTPUT_OSS_DIR ${CMAKE_BINARY_DIR}/oss)
+set(PROJECT_OUTPUT_OSS_GOOGLETEST_DIR ${PROJECT_OUTPUT_OSS_DIR}/${GOOGLETEST_VERSION_NAME})
+set(PROJECT_OUTPUT_OSS_GOOGLETEST_BUILD_DIR ${PROJECT_OUTPUT_OSS_GOOGLETEST_DIR}/build)
+
 
 message("Uncompressing ${GOOGLE_TEST_COMPRESSED_FILE_NAME} ...")
 
@@ -14,19 +20,13 @@ set(GOOGLETEST_LIBRARIES_LIST "gtest gmock")
 
 ExternalProject_Add(        ${GOOGLETEST_PROJECT_NAME}
     SOURCE_DIR              ${PROJECT_OUTPUT_OSS_GOOGLETEST_DIR}
-    BINARY_DIR              ${PROJECT_OUTPUT_OSS_GOOGLETEST_BUILD_DIR}
-    PREFIX                  ${PROJECT_OUTPUT_OSS_GOOGLETEST_BUILD_DIR}
+    BINARY_DIR              ${CMAKE_BINARY_DIR}/googletest
+    PREFIX                  ${CMAKE_BINARY_DIR}/googletest
     BUILD_COMMAND           make
     INSTALL_COMMAND         make install
     LIST_SEPARATOR          | # Use the alternate list separator
-    CMAKE_ARGS 
-                            -DCMAKE_INSTALL_PREFIX=${PROJECT_OUTPUT_OSS_GOOGLETEST_BUILD_DIR}
+    CMAKE_ARGS
+                            -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/googletest
 )
-
-set(GTEST_INC_DIRS          ${PROJECT_OUTPUT_OSS_GOOGLETEST_BUILD_INC_DIR}              PARENT_SCOPE)
-
-# No need to create shared lib depending on ENABLE_SHARED_LIB flag since it will only be used in unit test.
-set(GTEST_LIBRARIES         ${PROJECT_OUTPUT_OSS_GOOGLETEST_BUILD_LIB_DIR}/libgtest.a
-                            ${PROJECT_OUTPUT_OSS_GOOGLETEST_BUILD_LIB_DIR}/libgmock.a   PARENT_SCOPE)
 
 endif(ENABLE_UNIT_TESTS)
