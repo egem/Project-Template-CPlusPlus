@@ -1,8 +1,12 @@
 enable_testing()
 
-include_directories(${CMAKE_BINARY_DIR}/googletest/include)
-
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRCS)
+
+find_package(GoogleTest REQUIRED)
+message("GTEST_FOUND: ${GoogleTest_FOUND}")
+message("GoogleTest_INCLUDE_DIRS: ${GoogleTest_INCLUDE_DIRS}")
+message("GoogleTest_LIBRARIES: ${GoogleTest_LIBRARIES}")
+
 
 foreach(SRC ${SRCS})
     get_filename_component(SRC_NAME ${SRC} NAME_WE)
@@ -10,8 +14,9 @@ foreach(SRC ${SRCS})
 
     add_dependencies(${SRC_NAME} GoogleTest)
 
-    target_link_libraries(${SRC_NAME}   ${CMAKE_BINARY_DIR}/googletest/lib/libgtest.a
-                                        ${CMAKE_BINARY_DIR}/googletest/lib/libgmock.a)
+    target_include_directories( ${SRC_NAME}   PRIVATE  ${GoogleTest_INCLUDE_DIRS})
+
+    target_link_libraries(${SRC_NAME}   ${GoogleTest_LIBRARIES})
 
     add_test(   NAME        ${SRC_NAME}
                 COMMAND     ${SRC_NAME})
