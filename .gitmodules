@@ -1,0 +1,3 @@
+[submodule "app/modules/BasicModule"]
+	path = app/modules/BasicModule
+	url = https://github.com/egem/BasicModuleTemplateCPlusPlus.git

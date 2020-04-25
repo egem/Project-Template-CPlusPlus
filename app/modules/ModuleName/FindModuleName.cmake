@@ -1,5 +1,0 @@
-set(ModuleName_FOUND true)
-set(ModuleName_LIBRARY_NAME ModuleNameLib)
-set(ModuleName_INCLUDE_DIRS ${CMAKE_BINARY_DIR}/modules/module-name/include)
-set(ModuleName_LIBRARY_PATH ${CMAKE_BINARY_DIR}/modules/module-name/lib)
-set(ModuleName_LIBRARIES    ${ModuleName_LIBRARY_PATH}/lib${ModuleName_LIBRARY_NAME}.a)
