@@ -1,2 +1,0 @@
-AddTest(BasicModuleTest.cpp)
-
