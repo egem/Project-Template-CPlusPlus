@@ -1,10 +1,10 @@
-FUNCTION(ImportModule TargetName)
-    cmake_minimum_required(VERSION 3.0)
+FUNCTION(ImportModule module)
+    find_package(${module} REQUIRED)
 
-    aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRCS)
+    if(${${module}_FOUND})
+        add_dependencies(main ${${module}_DEPENDENCY_NAME})
 
-    # message("SRCS: ${SRCS}")
-    # target_sources(${TargetName} PRIVATE ${SRCS})
-    add_library(module_name ${SRCS})
-    target_include_directories(${TargetName} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+        target_include_directories(main PRIVATE ${${module}_INCLUDE_DIRS})
+        target_link_libraries(main ${${module}_LIBRARIES})
+    endif()
 ENDFUNCTION()
