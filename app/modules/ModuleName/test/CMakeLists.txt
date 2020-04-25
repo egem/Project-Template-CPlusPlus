@@ -5,6 +5,8 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SOURCES)
 find_package(GoogleTest REQUIRED)
 find_package(ModuleName REQUIRED)
 
+message("SOURCES: ${SOURCES}")
+
 foreach(SRC ${SOURCES})
     get_filename_component(SRC_NAME ${SRC} NAME_WE)
     add_executable(${SRC_NAME} ${SRC})
